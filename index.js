@@ -1,8 +1,14 @@
+'use strict'
+
 const Joi = require('joi');
 const express = require('express');
+const bodyParser = require('body-parser');
 const app = express();
+const port = process.env.PORT || 4000;
 
-app.use(express.json());
+app.use(bodyParser.urlencoded({extended: false}))
+app.use(bodyParser.json())
+//app.use(express.json());
 
 const courses = [
     {id: 1, name: 'course 1'},
@@ -34,19 +40,16 @@ app.get('/api/courses', (req, res)=>{
 });
 
 app.put('/api/courses/:id',(req,res)=>{
-    //Look up the course
-    //If not existing, return 404
+    //Look up the course, If not existing, return 404
     const course = courses.find(c=> c.id===parseInt(req.params.id));
     if(!course) res.status(404).send('The course with the given ID was not found');
-    //Validate 
-    //If invalid, return 400 - Bad request
+    //Validate, If invalid, return 400 - Bad request
     const {error}= validateCourse(req.body);
     if(error){
         res.status(400).send(error.details[0].message);
         return;
     }
-    //Update course
-    //Return the update course    
+    //Update course, Return the update course    
     course.name = req.body.name;
     res.send(course);
 });
@@ -63,8 +66,6 @@ function validateCourse(course){
     };
     return Joi.validate(course, schema);
 }
-
-const port = process.env.PORT || 4000;
 
 app.listen(port, ()=>{
     console.log(`Listening on port ${port}...`);
