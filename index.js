@@ -3,11 +3,17 @@
 const Joi = require('joi');
 const express = require('express');
 const bodyParser = require('body-parser');
+const hbs = require('express-handlebars');
 const app = express();
 const port = process.env.PORT || 4000;
 
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
+//Fontaneria para motor de templates
+app.engine('.hbs', hbs({
+    defaultLayout: 'default',
+    extname: '.hbs'
+}))
 //app.use(express.json());
 
 const courses = [
