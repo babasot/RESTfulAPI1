@@ -16,7 +16,7 @@ const port = process.env.PORT || 4000;
 const db = mysql.createConnection ({
     host: 'localhost',
     user: 'root',
-    password: '',
+    password: 'GeForcefx6800',
     database: 'reportes'
 });
 
@@ -29,7 +29,6 @@ global.db = db;
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 // configure middleware
-//Fontaneria para motor de templates
 app.engine('.hbs', hbs({
     defaultLayout: 'default',
     extname: '.hbs'
@@ -43,24 +42,6 @@ const courses = [
     {id: 3, name: 'course 3'}
 ];
 
-/*
-app.get('/', (req, res)=>{
-    res.send('Hola que hace!!');
-});*/
-/*
-app.get('/', function(req, res, next) {
-    db.query('SELECT * FROM solicitud ORDER BY folio desc',function(err,rows){
-    if(err){
-        req.flash('error', err); 
-        res.render('/',{page_title:"Customers - Node.js",data:''});   
-    }else{
-        res.render('consulta1',{            
-            page_title:"Customers - Node.js",data:rows
-        });
-    }
-    });
-});
-*/
 app.get('/', function(req, res, next){
         
     db.query('SELECT * FROM solicitud ORDER BY folio desc', function(err, rows, fields) {
